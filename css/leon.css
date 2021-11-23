@@ -46,6 +46,10 @@ body {
 }
 /* End global rules */
 /* Start Components */
+.headingP {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
 .special-heading {
   color: #ebeced;
   font-size: 100px;
@@ -54,11 +58,18 @@ body {
   letter-spacing: -3px;
   margin: 0;
 }
+.special-heading span {
+  display: inline-block;
+  opacity: 0;
+}
 .special-heading + p {
   margin: -30px 0 0;
   font-size: 20px;
   text-align: center;
   color: #797979;
+  transition: 1s 0.5s ease-out;
+  transform: translateY(40px);
+  opacity: 0;
 }
 @media (max-width: 767px) {
   .special-heading {
@@ -73,6 +84,40 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 /* end Components */
+/* start preloader */
+.preloader {
+  position: fixed;
+  background-color: white;
+  z-index: 1000;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .5s 1s ease-in;
+}
+.preloader img {
+  position: relative;
+}
+.hide-pre {
+  background-color: transparent;
+}
+.hide-pre img {
+  animation: guest .7s .3s ease-in forwards;
+}
+@keyframes guest {
+  0% {
+    left: 0;
+    transform: rotate(0);
+    opacity: 1;
+  }
+  100% {
+    left: 50vw;
+    transform: rotate(90deg);
+    opacity: 0;
+  }
+}
+/* end preloader */
 
 header {
   padding: 20px;
@@ -140,14 +185,12 @@ header .links ul li a:hover {
 header .links ul li:not(:last-child) a {
   border-bottom: 1px solid #ddd;
 }
-input.checkbox-menu[type="checkbox"] {
-  display: none;
+
+.menuControle span:nth-child(2) {
+  width: 100% !important;
 }
-input.checkbox-menu[type="checkbox"]:checked ~ ul {
-  display: block;
-}
-input.checkbox-menu[type="checkbox"]:checked + .icon span:nth-child(2) {
-  width: 100%;
+.menuControle + ul {
+  display: block !important;
 }
 header .links ul li a:hover {
   border-left: 5px solid #00bcd4;
@@ -157,8 +200,9 @@ header .links ul li a:hover {
 /* landing right now */
 
 .landing {
-  background-image: url(/images/pexels-pixabay-355770.jpg);
+  background-image: linear-gradient(133deg, #0000004d, #00000000), url(../images/everest_3840x2160.jpg);
   background-size: cover;
+  background-position: right bottom;
   height: calc(100vh - 64px);
   display: flex;
   justify-content: center;
@@ -167,8 +211,12 @@ header .links ul li a:hover {
 .landing .intro-text {
   text-align: center;
   width: 384px;
+  transition: 1s 1s ease-out;
+  transform: translateY(150%);
+  opacity: 0;
 }
 .landing .intro-text h1 {
+  text-shadow: 2px 2px 2px black;
   margin: 0;
   font-size: 50px;
   color: var(--main-color);
@@ -176,9 +224,15 @@ header .links ul li a:hover {
 .landing .intro-text p {
   font-size: 19px;
   line-height: 1.8;
+  font-weight: 500;
 }
 /* end landing */
 /* start features */
+
+.anim {
+  top: 0!important;
+  opacity: 1 !important;
+}
 .features {
   padding: var(--section-padding) 0;
   background-color: var(--section-background);
@@ -195,13 +249,24 @@ header .links ul li a:hover {
   }
 }
 .features .feat {
+  opacity: 0;
+  top: 150px;
   padding: 20px;
   text-align: center;
   border-radius: 10px;
   box-shadow: 0px 2px 20px -16px #000000;
-  transition: var(--main-duration);
-
   position: relative;
+  transition-property: top, background-color, transform;
+  transition-duration: 1s, .5s, .5s;
+  transition-timing-function: ease-out, ease, ease;
+}
+@media (min-width: 992px) {
+  .features .feat:nth-child(2) {
+    transition-delay: 0.2s, 0s, 0s;
+  }
+  .features .feat:nth-child(3) {
+    transition-delay: 0.4s, 0s, 0s;
+  }
 }
 .features .feat::after {
   content: "";
@@ -241,6 +306,8 @@ header .links ul li a:hover {
 }
 /* end features */
 /* start Services */
+
+
 .services {
   padding: var(--section-padding) 0;
 }
@@ -527,7 +594,7 @@ header .links ul li a:hover {
   height: 100%;
   top: 0;
 }
-.contact .container {
+.contact .container > * {
   position: relative;
 }
 /* end contact  */
